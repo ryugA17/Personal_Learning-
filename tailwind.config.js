@@ -8,7 +8,8 @@ export default {
     extend: {
       fontFamily: {
         display: ['Outfit', 'system-ui', 'sans-serif'],
-        body: ['Inter', 'system-ui', 'sans-serif'],
+        body:    ['Inter', 'system-ui', 'sans-serif'],
+        story:   ['"Space Grotesk"', 'system-ui', 'sans-serif'],
       },
       colors: {
         space: {
