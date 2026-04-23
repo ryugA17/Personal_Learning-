@@ -1,17 +1,15 @@
 /**
- * Navbar.jsx — Minimal fixed nav
+ * Navbar.jsx — Minimal top-left logo
+ * Cinematic, subtle, and non-distracting.
  */
 import React from 'react';
 
 export default function Navbar() {
   return (
-    <nav className="fixed top-0 left-0 w-full z-20 flex items-center justify-between px-8 md:px-16 py-6">
-      <span className="font-display font-bold text-white/80 text-lg tracking-tight">
-        ✦ COSMOS
+    <nav className="fixed top-8 left-8 md:top-12 md:left-12 z-20 pointer-events-none">
+      <span className="font-body font-light text-white/60 text-[11px] tracking-[0.3em] uppercase">
+        Cosmos
       </span>
-      <p className="text-white/30 text-xs font-body tracking-widest uppercase">
-        Scroll to explore
-      </p>
     </nav>
   );
 }

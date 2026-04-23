@@ -1,6 +1,7 @@
 /**
- * PostProcessing.jsx — Bloom + Vignette
- * Intensity driven by scroll progress (peaks at finale)
+ * PostProcessing.jsx
+ * ------------------
+ * Applies Bloom selectively to the brightest elements (stars, emissive materials).
  */
 import React from 'react';
 import { EffectComposer, Bloom, Vignette } from '@react-three/postprocessing';
@@ -16,13 +17,14 @@ export default function PostProcessing() {
     <EffectComposer>
       <Bloom
         intensity={bloomIntensity}
-        luminanceThreshold={0.2}
+        // High threshold ensures planets and nebulas don't glow, only stars and emissives do
+        luminanceThreshold={0.5} 
         luminanceSmoothing={0.9}
         blendFunction={BlendFunction.SCREEN}
       />
       <Vignette
-        offset={0.4}
-        darkness={0.7}
+        offset={0.5}
+        darkness={0.6}
         blendFunction={BlendFunction.NORMAL}
       />
     </EffectComposer>
