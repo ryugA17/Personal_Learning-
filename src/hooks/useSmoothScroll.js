@@ -1,46 +1,52 @@
 /**
  * useSmoothScroll.js
  * ------------------
- * Initializes Lenis smooth scrolling and syncs it with GSAP's ticker
- * and ScrollTrigger. This gives us buttery-smooth momentum scrolling
- * while keeping all GSAP scroll animations perfectly in sync.
+ * Lenis smooth scroll + GSAP ticker sync + Zustand progress update.
+ * Lenis handles momentum; ScrollTrigger uses native scroll events.
  */
 import { useEffect } from 'react';
 import Lenis from 'lenis';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import useStore from '../store/useStore';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export function useSmoothScroll() {
+  const setScrollProgress = useStore((s) => s.setScrollProgress);
+  const setActiveSection = useStore((s) => s.setActiveSection);
+
   useEffect(() => {
-    // Initialize Lenis with tuned parameters
     const lenis = new Lenis({
-      duration: 1.2,           // scroll duration in seconds
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // expo easing
+      duration: 1.4,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
-      gestureOrientation: 'vertical',
       smoothWheel: true,
-      wheelMultiplier: 1,
-      touchMultiplier: 2,
+      wheelMultiplier: 0.8,    // slower = more cinematic feel
+      touchMultiplier: 1.5,
     });
 
-    // Sync Lenis scroll with ScrollTrigger
-    lenis.on('scroll', ScrollTrigger.update);
+    // Update Zustand scroll progress on every scroll tick
+    lenis.on('scroll', ({ progress }) => {
+      setScrollProgress(progress);
 
-    // Add Lenis to GSAP's ticker so it runs every frame
+      // Determine active section from progress
+      // 7 sections: each ~14.3% of total scroll
+      const sectionIndex = Math.min(6, Math.floor(progress * 7));
+      setActiveSection(sectionIndex);
+
+      // Keep ScrollTrigger in sync
+      ScrollTrigger.update();
+    });
+
+    // Plug Lenis into GSAP ticker
     gsap.ticker.add((time) => {
-      lenis.raf(time * 1000); // Lenis expects ms, GSAP gives seconds
+      lenis.raf(time * 1000);
     });
-
-    // Prevent GSAP from using its own requestAnimationFrame
-    // (Lenis handles the loop)
     gsap.ticker.lagSmoothing(0);
 
-    // Cleanup on unmount
     return () => {
       lenis.destroy();
-      gsap.ticker.remove(lenis.raf);
     };
-  }, []);
+  }, [setScrollProgress, setActiveSection]);
 }

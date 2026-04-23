@@ -1,0 +1,95 @@
+{
+  "segments": [
+    {
+      "id": "intro",
+      "label": "Intro",
+      "startPct": 0.00,
+      "endPct": 0.14,
+      "overlay": "In the beginning, there was only silence.",
+      "astronaut": { "x": 0, "y": 0, "z": 0 },
+      "camera": { "offsetX": 0, "offsetY": 1.5, "offsetZ": 8 },
+      "starDensity": 0.3,
+      "bloomIntensity": 0.2,
+      "nebulaOpacity": 0.0,
+      "fogDensity": 0.0
+    },
+    {
+      "id": "drift",
+      "label": "Drift",
+      "startPct": 0.14,
+      "endPct": 0.28,
+      "overlay": "You are not falling. You are floating.",
+      "astronaut": { "x": 2, "y": 1.5, "z": -5 },
+      "camera": { "offsetX": -0.5, "offsetY": 1.5, "offsetZ": 7 },
+      "starDensity": 0.5,
+      "bloomIntensity": 0.4,
+      "nebulaOpacity": 0.3,
+      "fogDensity": 0.0
+    },
+    {
+      "id": "discovery",
+      "label": "Discovery",
+      "startPct": 0.28,
+      "endPct": 0.42,
+      "overlay": "Light emerges from the void.",
+      "astronaut": { "x": -2, "y": 0.5, "z": -12 },
+      "camera": { "offsetX": 0.5, "offsetY": 2, "offsetZ": 7 },
+      "starDensity": 0.7,
+      "bloomIntensity": 0.7,
+      "nebulaOpacity": 0.6,
+      "fogDensity": 0.02
+    },
+    {
+      "id": "exploration",
+      "label": "Exploration",
+      "startPct": 0.42,
+      "endPct": 0.56,
+      "overlay": "Worlds form where none existed before.",
+      "astronaut": { "x": 1, "y": -1, "z": -20 },
+      "camera": { "offsetX": -1, "offsetY": 1.5, "offsetZ": 6 },
+      "starDensity": 0.85,
+      "bloomIntensity": 0.9,
+      "nebulaOpacity": 0.8,
+      "fogDensity": 0.03
+    },
+    {
+      "id": "encounter",
+      "label": "Encounter",
+      "startPct": 0.56,
+      "endPct": 0.70,
+      "overlay": "Gravity pulls you closer.",
+      "astronaut": { "x": -1.5, "y": 0.5, "z": -28 },
+      "camera": { "offsetX": 1.5, "offsetY": 1, "offsetZ": 5.5 },
+      "starDensity": 1.0,
+      "bloomIntensity": 1.1,
+      "nebulaOpacity": 0.9,
+      "fogDensity": 0.04
+    },
+    {
+      "id": "expansion",
+      "label": "Expansion",
+      "startPct": 0.70,
+      "endPct": 0.85,
+      "overlay": "The universe reveals its depth.",
+      "astronaut": { "x": 0.5, "y": 1, "z": -36 },
+      "camera": { "offsetX": 0, "offsetY": 2, "offsetZ": 5 },
+      "starDensity": 1.0,
+      "bloomIntensity": 1.4,
+      "nebulaOpacity": 1.0,
+      "fogDensity": 0.05
+    },
+    {
+      "id": "finale",
+      "label": "Finale",
+      "startPct": 0.85,
+      "endPct": 1.00,
+      "overlay": "You were never just an observer.",
+      "astronaut": { "x": 0, "y": 0, "z": -44 },
+      "camera": { "offsetX": 0, "offsetY": 0.5, "offsetZ": 4 },
+      "starDensity": 1.0,
+      "bloomIntensity": 2.0,
+      "nebulaOpacity": 1.0,
+      "fogDensity": 0.0
+    }
+  ]
+}
