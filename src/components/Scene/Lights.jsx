@@ -5,16 +5,39 @@
  * Mostly dark environment with low ambient light and one directional "sun" 
  * to provide dramatic contrast and deep shadows on the astronaut and planets.
  */
-import React from 'react';
+import React, { useRef } from 'react';
+import { useFrame } from '@react-three/fiber';
+import * as THREE from 'three';
+import { useScrollProgress } from '../../hooks/useScrollProgress';
+import { getStateAtProgress } from '../../animations/scrollEngine';
 
 const Lights = React.memo(function Lights() {
+  const ambientRef = useRef();
+  const dirRef = useRef();
+  const scrollProgress = useScrollProgress();
+
+  useFrame(() => {
+    if (ambientRef.current && dirRef.current) {
+      const { ambientColor, ambientIntensity, transitionT } = getStateAtProgress(scrollProgress);
+      
+      ambientRef.current.color.lerp(new THREE.Color(ambientColor), 0.1);
+      ambientRef.current.intensity = THREE.MathUtils.lerp(ambientRef.current.intensity, ambientIntensity, 0.1);
+      
+      // Also tweak directional light color/intensity based on planet proximity
+      // For instance, sun gets slightly tinted by atmosphere when inside it
+      const targetDirColor = new THREE.Color('#ffffff').lerp(new THREE.Color(ambientColor), transitionT * 0.5);
+      dirRef.current.color.lerp(targetDirColor, 0.1);
+      // Boost directional light inside the planet
+      dirRef.current.intensity = THREE.MathUtils.lerp(dirRef.current.intensity, 1.2 + transitionT * 0.8, 0.1);
+    }
+  });
+
   return (
     <>
-      {/* Very low ambient light to barely fill shadows with a cool tone */}
-      <ambientLight intensity={0.05} color="#88aaff" />
+      <ambientLight ref={ambientRef} intensity={0.05} color="#88aaff" />
       
-      {/* Distant main sun providing hard directional light and shadows */}
       <directionalLight 
+        ref={dirRef}
         position={[30, 20, 10]} 
         intensity={1.2} 
         color="#ffffff" 
@@ -32,3 +55,4 @@ const Lights = React.memo(function Lights() {
 });
 
 export default Lights;
+

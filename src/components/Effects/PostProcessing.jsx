@@ -11,14 +11,15 @@ import { getStateAtProgress } from '../../animations/scrollEngine';
 
 export default function PostProcessing() {
   const scrollProgress = useScrollProgress();
-  const { bloomIntensity } = getStateAtProgress(scrollProgress);
+  const { bloomIntensity, cameraShake = 0 } = getStateAtProgress(scrollProgress);
 
   return (
     <EffectComposer>
       <Bloom
         intensity={bloomIntensity}
-        // High threshold ensures planets and nebulas don't glow, only stars and emissives do
-        luminanceThreshold={0.5} 
+        // High threshold ensures planets and nebulas don't glow normally
+        // Lower it during cinematic shake (entry/exit) to create a flare effect
+        luminanceThreshold={0.5 - (cameraShake * 0.3)} 
         luminanceSmoothing={0.9}
         blendFunction={BlendFunction.SCREEN}
       />

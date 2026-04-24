@@ -37,12 +37,12 @@ function createNebulaTexture() {
 // Atmosphere clouds positioned very deeply into Z
 // We push them out to -300 so that when they move +200 on scroll, they still cover the deep background.
 const NEBULA_CLOUDS = [
-  { position: [-25, 15, -20],  scale: 60, color: '#1a1040', rotationBase: 0.1,  rotationSpeed: 0.002 },
-  { position: [30, -20, -50],  scale: 80, color: '#0a1a40', rotationBase: -0.5, rotationSpeed: -0.001 },
-  { position: [-15, -10, -100], scale: 100, color: '#2a0a40', rotationBase: 0.8,  rotationSpeed: 0.0015 },
-  { position: [25, 25, -150],  scale: 120, color: '#0a2040', rotationBase: -0.2, rotationSpeed: -0.002 },
-  { position: [-30, 20, -200], scale: 150, color: '#101a40', rotationBase: 0.6,  rotationSpeed: 0.001 },
-  { position: [10, -15, -260], scale: 180, color: '#0a1530', rotationBase: -0.4,  rotationSpeed: -0.001 },
+  { position: [-25, 15, -20], scale: 60, color: '#3300ffff', rotationBase: 0.1, rotationSpeed: 0.002 },
+  { position: [30, -20, -50], scale: 80, color: '#0a1a40', rotationBase: -0.5, rotationSpeed: -0.001 },
+  { position: [-15, -10, -100], scale: 100, color: '#2a0a40', rotationBase: 0.8, rotationSpeed: 0.0015 },
+  { position: [25, 25, -150], scale: 120, color: '#0a2040', rotationBase: -0.2, rotationSpeed: -0.002 },
+  { position: [-30, 20, -200], scale: 150, color: '#101a40', rotationBase: 0.6, rotationSpeed: 0.001 },
+  { position: [10, -15, -260], scale: 180, color: '#0a1530', rotationBase: -0.4, rotationSpeed: -0.001 },
 ];
 
 const NebulaCloud = React.memo(function NebulaCloud({ position, scale, color, texture, rotationBase, rotationSpeed }) {
@@ -80,7 +80,7 @@ const Nebula = React.memo(function Nebula() {
   useFrame(() => {
     if (!groupRef.current) return;
     const { nebulaOpacity } = getStateAtProgress(scrollProgress);
-    
+
     // Scale the opacity based on the scroll engine config
     groupRef.current.children.forEach((child) => {
       if (child.material) {

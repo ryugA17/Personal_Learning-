@@ -8,8 +8,11 @@
 import React, { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
+import { useScrollProgress } from '../../hooks/useScrollProgress';
+import { getStateAtProgress } from '../../animations/scrollEngine';
 
 const Planet = React.memo(function Planet({
+  index,
   position = [0, 0, 0],
   radius = 2,
   baseColor = '#02050a',
@@ -17,8 +20,10 @@ const Planet = React.memo(function Planet({
   hasRings = false,
   rotationSpeed = 0.001,
 }) {
+  const groupRef = useRef();
   const planetRef = useRef();
   const ringRef = useRef();
+  const scrollProgress = useScrollProgress();
 
   useFrame(() => {
     if (planetRef.current) {
@@ -27,10 +32,27 @@ const Planet = React.memo(function Planet({
     if (ringRef.current) {
       ringRef.current.rotation.z += rotationSpeed * 0.3;
     }
+    
+    // Cinematic Scaling
+    if (groupRef.current) {
+      const { activePlanetIndex, transitionT } = getStateAtProgress(scrollProgress);
+      let targetScale = 1;
+      
+      if (activePlanetIndex === index) {
+        // Exaggerated scale for cinematic effect (15x-25x depending on needs)
+        // Transition curve smoothstep applied in scrollEngine
+        targetScale = 1 + (transitionT * 20); 
+      }
+      
+      // Smooth lerp scale
+      const currentScale = groupRef.current.scale.x;
+      const newScale = THREE.MathUtils.lerp(currentScale, targetScale, 0.05);
+      groupRef.current.scale.setScalar(newScale);
+    }
   });
 
   return (
-    <group position={position}>
+    <group ref={groupRef} position={position}>
       {/* 
         Planet core: Dark standard material.
         Realism comes from shadows cast by the main directional sun.

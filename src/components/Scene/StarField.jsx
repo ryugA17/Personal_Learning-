@@ -9,6 +9,7 @@ import React, { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { useScrollProgress } from '../../hooks/useScrollProgress';
+import { getStateAtProgress } from '../../animations/scrollEngine';
 
 function createStarLayer(count, spreadX, spreadY, spreadZ) {
   const positions = new Float32Array(count * 3);
@@ -31,6 +32,8 @@ const StarLayer = React.memo(function StarLayer({
   rotationSpeedX, rotationSpeedY, rotationSpeedZ 
 }) {
   const pointsRef = useRef();
+  const materialRef = useRef();
+  const scrollProgress = useScrollProgress();
   
   const geometry = useMemo(
     () => createStarLayer(count, spreadX, spreadY, spreadZ),
@@ -38,16 +41,22 @@ const StarLayer = React.memo(function StarLayer({
   );
 
   useFrame(({ clock }) => {
-    if (!pointsRef.current) return;
-    const t = clock.getElapsedTime();
-    pointsRef.current.rotation.x = t * rotationSpeedX;
-    pointsRef.current.rotation.y = t * rotationSpeedY;
-    pointsRef.current.rotation.z = t * rotationSpeedZ;
+    if (pointsRef.current) {
+      const t = clock.getElapsedTime();
+      pointsRef.current.rotation.x = t * rotationSpeedX;
+      pointsRef.current.rotation.y = t * rotationSpeedY;
+      pointsRef.current.rotation.z = t * rotationSpeedZ;
+    }
+    if (materialRef.current) {
+      const { starOpacity } = getStateAtProgress(scrollProgress);
+      materialRef.current.opacity = opacity * starOpacity;
+    }
   });
 
   return (
     <points ref={pointsRef} geometry={geometry} frustumCulled={false}>
       <pointsMaterial
+        ref={materialRef}
         size={size}
         sizeAttenuation={true}
         color={color}

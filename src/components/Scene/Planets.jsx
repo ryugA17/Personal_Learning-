@@ -50,7 +50,7 @@ const Planets = React.memo(function Planets() {
   return (
     <group>
       {PLANET_DATA.map((planet, i) => (
-        <Planet key={i} {...planet} />
+        <Planet key={i} index={i} {...planet} />
       ))}
     </group>
   );
